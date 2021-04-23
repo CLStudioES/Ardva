@@ -1,0 +1,36 @@
+try{
+						Class.forName("com.mysql.jdbc.Driver");
+						Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/domotica", "root","");
+						Statement atm = conexion.createStatement();
+						ResultSet rst = atm.executeQuery("SELECT * FROM DOMOTICA ");
+						ResultSetMetaData rsMd= rst.getMetaData();
+						int numeroColumnas=rsMd.getColumnCount();
+						
+						DefaultTableModel modelo= new DefaultTableModel();
+						table.setModel(modelo);
+						
+						for (int x=1; x<=numeroColumnas; x++){
+							modelo.addColumn(rsMd.getColumnLabel (x));
+						}
+							
+						while (rst.next()){
+							Object [] fila =new Object [numeroColumnas];
+							
+							for (int y=0; y<numeroColumnas; y++){
+								fila [y]=rst.getObject(y+1);
+							}
+							modelo.addRow(fila);
+						}
+						
+					}
+					
+					catch(ClassNotFoundException ce) {
+						ce.printStackTrace();
+						
+					}
+					catch(SQLException se) {
+						
+						se.printStackTrace();
+					}
+					
+				}
